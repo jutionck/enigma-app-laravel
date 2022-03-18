@@ -15,16 +15,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all(); // all
-
-        $newData = new Student;
-
-        $newData->save(); // store [inser, update]
-        $newData->delete(); // store
-
-
-
-        Student::findorFail(); // get by id
+        $students = Student::all();
         return view('student.index', compact('students'));
     }
 
@@ -46,7 +37,19 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
-        return "Method ini digunakan untuk proses penyimpanan data";
+        // membuat validasi
+        $request->validate([
+            'name' => 'required',
+            'npm' => 'required',
+            'email' => 'required'
+        ]);
+        $student = new Student;
+        $student->name = $request->name;
+        $student->npm = $request->npm;
+        $student->email = $request->email;
+        $student->image = $request->image;
+        $student->save();
+        return redirect()->route('students.index');
     }
 
     /**
@@ -68,7 +71,8 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        return view('student.update');
+        $student = Student::findOrFail($id);
+        return view('student.edit', compact('student'));
     }
 
     /**
@@ -80,7 +84,18 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, $id)
     {
-        return "Method ini digunakan untuk mengubah data dengan id=" . $id;
+        $request->validate([
+            'name' => 'required',
+            'npm' => 'required',
+            'email' => 'required'
+        ]);
+        $student = Student::findOrFail($id);
+        $student->name = $request->name;
+        $student->npm = $request->npm;
+        $student->email = $request->email;
+        $student->image = $request->image;
+        $student->save();
+        return redirect()->route('students.index');
     }
 
     /**
@@ -91,6 +106,8 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        return "Method ini digunakan untuk menghapus data dengan id= " . $id;
+        $student = Student::findOrFail($id);
+        $student->delete();
+        return redirect()->route('students.index');
     }
 }

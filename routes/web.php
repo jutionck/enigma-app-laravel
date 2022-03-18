@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,19 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('students', 'StudentController@index');
+// route prefix admin
+// route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+//     Route::get('/', function () {
+//         return view('admin.index');
+//     });
+//     Route::resource('students', StudentController::class);
+// });
 
-Route::resource('students', StudentController::class); // CRUD
-
-Route::get('students', [StudentController::class, 'index']);
-Route::get('students/add', [StudentController::class, 'create']);
-
-
-
-Route::get('/user', function () {
-    return view('student.index');
-});
+Route::resource('students', StudentController::class);
