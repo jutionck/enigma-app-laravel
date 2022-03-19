@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -15,7 +16,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        // $students = Student::all();
+        $students = DB::table('students')
+            ->select('id', 'npm', 'name', 'email', 'image')
+            ->get();
+        // ORM (Eloquent) | SELECT * FROM students (x)
+        // SELECT id, npm, name, email FROM students (v)
         return view('student.index', compact('students'));
     }
 
