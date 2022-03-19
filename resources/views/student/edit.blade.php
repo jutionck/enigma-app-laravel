@@ -24,11 +24,21 @@
                         <input type="text" name="npm" class="form-control @error('npm') is-invalid @enderror"
                             id="floatingPassword" placeholder="Password" value="{{ $student->npm }}">
                         <label for="floatingPassword">NPM</label>
+                        @error('npm')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
                             id="floatingPassword" placeholder="Password" value="{{ $student->email }}">
                         <label for="floatingPassword">Email</label>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" name="image" class="form-control" id="floatingPassword" placeholder="Password"
